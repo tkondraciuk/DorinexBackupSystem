@@ -7,7 +7,7 @@ from FTPController import FTPController
 
 
 class BackupService:
-    zipDirectory = 'zip/'
+    rootPathEnviromentVar="DorinexBackupSystem_home"
     zipFilePath = ''
     loggerName = 'Backup Service'
 
@@ -56,10 +56,10 @@ class BackupService:
 
     def _setZipFilePath(self):
         zipFileName = datetime.now().strftime('%Y-%m-%d %H.%M') + ".zip"
-        self.zipFilePath = os.path.realpath('./' + self.zipDirectory + zipFileName)
+        self.zipFilePath = os.environ[self.rootPathEnviromentVar] + "\\" + zipFileName
 
     def _loadConfig(self):
-        #TODO Dodać wczytywanie danych konfiguracyjnych z pliku
+        # TODO Dodać wczytywanie danych konfiguracyjnych z pliku
         pass
 
 

@@ -2,7 +2,7 @@ import logging
 from datetime import date
 import os
 
-logDirectory = os.path.realpath('./logs')+'/'
+logDirectory = 'C:/Python/DorinexBackupSystem/logs/'
 
 
 def get_log_file_name():
