@@ -24,11 +24,10 @@ Instructions:
 
 import socket
 
-import win32serviceutil
 
 import servicemanager
 import win32event
-import win32service
+import win32serviceutil
 
 
 class SMWinservice(win32serviceutil.ServiceFramework):
@@ -58,7 +57,7 @@ class SMWinservice(win32serviceutil.ServiceFramework):
         Called when the service is asked to stop
         '''
         self.stop()
-        self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
+        self.ReportServiceStatus(win32serviceutil.SERVICE_STOP_PENDING)
         win32event.SetEvent(self.hWaitStop)
 
     def SvcDoRun(self):
