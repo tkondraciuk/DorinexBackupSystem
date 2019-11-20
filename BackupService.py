@@ -1,4 +1,5 @@
 import os
+import yaml
 from datetime import datetime
 from zipfile import ZipFile
 
@@ -7,14 +8,14 @@ from FTPController import FTPController
 
 
 class BackupService:
-    rootPathEnviromentVar="DorinexBackupSystem_home"
+    rootPathEnVar = "DorinexBackupSystem_home"
     zipFilePath = ''
     loggerName = 'Backup Service'
+    filesToBackup = []
 
     def __init__(self):
         self._loadConfig()
         self.ftpController = FTPController()
-        self.trackedPaths = self._getTrackedPaths()
         self.logger = LoggerUtils.getLogger(self.loggerName)
 
     def makeBackup(self):
@@ -38,7 +39,7 @@ class BackupService:
 
     def _packFiles(self):
         paths = []
-        for path in self.trackedPaths:
+        for path in self.filesToBackup:
             paths.extend(self._getAllPaths(path))
         if self.zipFilePath == '':
             self._setZipFilePath()
@@ -50,16 +51,15 @@ class BackupService:
                 self.logger.info('%s was successfully packed.', file)
             self.logger.info('%i of %i files was successfully packed.', packed, len(paths))
 
-    def _getTrackedPaths(self):
-        paths = ['C:/C#/DorinexBackupSystem/testFile.txt', 'C:/C#/DorinexBackupSystem/testDirectory']
-        return paths
-
     def _setZipFilePath(self):
         zipFileName = datetime.now().strftime('%Y-%m-%d %H.%M') + ".zip"
-        self.zipFilePath = os.environ[self.rootPathEnviromentVar] + "\\" + zipFileName
+        self.zipFilePath = os.environ[self.rootPathEnVar] + "\\zip\\" + zipFileName
 
     def _loadConfig(self):
-        # TODO Dodać wczytywanie danych konfiguracyjnych z pliku
+        with open('config.yaml') as file:
+            config = yaml.full_load(file)
+        self.filesToBackup = config['filesToBackup']
+        self.rootPathEnVar = config["rootPathEnvironmentVariable"]
         pass
 
 

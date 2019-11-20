@@ -1,6 +1,7 @@
 import ftplib
 import os
 import socket
+import yaml
 from ftplib import FTP
 
 import LoggerUtils
@@ -20,11 +21,12 @@ class FTPController:
         pass
 
     def _loadConfig(self):
-        # TODO dodać wczytywanie danych z pliku
-        self.host = "192.168.1.254"
-        self.login = "testUser"
-        self.password = "12345"
-        self.uploadLocation = "/Volume_1/testBackup"
+        with open("config.yaml", 'r') as file:
+            connConfig = yaml.full_load(file)['remoteStorage']
+        self.host = connConfig['host']
+        self.login = connConfig['login']
+        self.password = connConfig['password']
+        self.uploadLocation = connConfig['uploadLocation']
         pass
 
     def uploadFile(self, filePath):

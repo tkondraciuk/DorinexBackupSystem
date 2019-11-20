@@ -1,0 +1,12 @@
+rootPathEnvironmentVariable: "DorinexBackupSystem_home"
+
+remoteStorage:
+    host: "192.168.1.254"
+    login: "testUser"
+    password: "12345"
+    uploadLocation: "/Volume_1/testBackup"
+
+filesToBackup:
+    - C:/C#/DorinexBackupSystem/testFile.txt
+    - C:/C#/DorinexBackupSystem/testDirectory
+
