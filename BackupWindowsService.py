@@ -5,12 +5,13 @@ from pathlib import Path
 
 import servicemanager as servicemanager
 
+import LoggerUtils
 from SMWinservice import SMWinservice
-from threading import Timer
+from RepeatingTimer import RepeatingTimer
 from _datetime import timedelta
 
-
 from BackupService import BackupService
+from StopServiceException import StopServiceException
 
 
 def test():
@@ -18,6 +19,7 @@ def test():
 
 
 class BackupWindowsService(SMWinservice):
+    loggerName = 'BackupWindowsService'
     interval = timedelta(seconds=10).seconds
     _svc_display_name_ = "Dorinex Backup System"
     _svc_name_ = "DorinexBackupSystem"
@@ -25,29 +27,40 @@ class BackupWindowsService(SMWinservice):
                         "and store them on the external network location"
 
     def __init__(self, args):
+        self.logger = LoggerUtils.getLogger(self.loggerName)
         super().__init__(args)
+        self.isrunning = False
         pass
 
     def start(self):
-        self.isrunning = True
-        self.backupService = BackupService()
-        self.running = True
-        self.timer = Timer(self.interval, test)
+        self.logger.info("Starting the Backup System...")
+        try:
+            self.backupService = BackupService()
+            self.timer = RepeatingTimer(self.interval, test)
+            self.isrunning = True
+        except StopServiceException as e:
+            self.logger.error(e)
+            self.SvcStop()
         pass
 
     def stop(self):
+        self.timer.cancel()
         self.isrunning = False
-        # self.running = False
+        self.logger.info('The Backup System was stopped.')
         pass
 
     def Main(self):
-        while self.running:
-            if not self.timer.is_alive():
-                self.Start()
-        self.timer.cancel()
+        self.timer.start()
+        self.logger.info("The Backup System was successfully started.")
+        try:
+            while self.isrunning:
+                pass
+        except StopServiceException as e:
+            self.logger.error(e)
+            self.SvcStop()
 
         pass
 
+
 if __name__ == '__main__':
     BackupWindowsService.parse_command_line()
-
