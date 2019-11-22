@@ -48,7 +48,7 @@ class FTPController:
             self.session.storbinary(self._getSTORCommand(filePath), file)
         except IOError as e:
             self.logger.error(e)
-            # TODO Dodać messageboxa informującego o błędzie
+            
         pass
 
     def _getSTORCommand(self, filePath):
@@ -61,13 +61,13 @@ class FTPController:
         except (ftplib.error_perm, TimeoutError):
             self.logger.error('Server connection failed. '
                               'Make sure that host is online and connection data are correct.')
-            # TODO Wywołać metodę wyłączającą system
+            raise StopServiceException
 
         try:
             self.session.cwd(self.uploadLocation)
         except ftplib.error_perm:
             self.logger.error('Upload location (%s) does not exist at the host\'s machine.')
-            # TODO Wywołać metodę wyłączającą system
+            raise StopServiceException
 
         if self.isInit:
             self.logger.info('Connection with %s established.', self.host)
