@@ -36,7 +36,7 @@ class BackupWindowsService(SMWinservice):
         self.logger.info("Starting the Backup System...")
         try:
             self.backupService = BackupService()
-            self.timer = RepeatingTimer(self.interval, test)
+            self.timer = RepeatingTimer(self.interval, self.backupService.makeBackup)
             self.isrunning = True
         except StopServiceException as e:
             self.logger.error(e)

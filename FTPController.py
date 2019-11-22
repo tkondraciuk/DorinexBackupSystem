@@ -48,7 +48,7 @@ class FTPController:
             self.session.storbinary(self._getSTORCommand(filePath), file)
         except IOError as e:
             self.logger.error(e)
-            
+
         pass
 
     def _getSTORCommand(self, filePath):
