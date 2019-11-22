@@ -49,7 +49,7 @@ class BackupWindowsService(SMWinservice):
         self.logger.info('The Backup System was stopped.')
         pass
 
-    def Main(self):
+    def main(self):
         self.timer.start()
         self.logger.info("The Backup System was successfully started.")
         try:
