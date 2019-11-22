@@ -3,25 +3,27 @@ import os
 import socket
 import yaml
 from ftplib import FTP
+from StopServiceException import StopServiceException
 
 import LoggerUtils
 
 
 class FTPController:
+    rootPathEnVar = "DorinexBackupSystem_home"
     STOR_command = "STOR %s"
     loggerName = 'FTPController'
     isInit = True;
 
     def __init__(self):
-        self._loadConfig()
         self.logger = LoggerUtils.getLogger(self.loggerName)
         self.session = FTP()
+        self._loadConfig()
         self._setConnection()
         self.isInit = False
         pass
 
     def _loadConfig(self):
-        with open("config.yaml", 'r') as file:
+        with open(os.environ[self.rootPathEnVar] + "\\config.yaml", 'r') as file:
             connConfig = yaml.full_load(file)['remoteStorage']
         self.host = connConfig['host']
         self.login = connConfig['login']

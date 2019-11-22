@@ -1,5 +1,3 @@
-rootPathEnvironmentVariable: "DorinexBackupSystem_home"
-
 remoteStorage:
     host: "192.168.1.254"
     login: "testUser"

@@ -5,6 +5,7 @@ from zipfile import ZipFile
 
 import LoggerUtils
 from FTPController import FTPController
+from StopServiceException import StopServiceException
 
 
 class BackupService:
@@ -14,9 +15,9 @@ class BackupService:
     filesToBackup = []
 
     def __init__(self):
+        self.logger = LoggerUtils.getLogger(self.loggerName)
         self._loadConfig()
         self.ftpController = FTPController()
-        self.logger = LoggerUtils.getLogger(self.loggerName)
 
     def makeBackup(self):
         self._packFiles()
@@ -56,12 +57,16 @@ class BackupService:
         self.zipFilePath = os.environ[self.rootPathEnVar] + "\\zip\\" + zipFileName
 
     def _loadConfig(self):
-        with open('config.yaml') as file:
-            config = yaml.full_load(file)
-        self.filesToBackup = config['filesToBackup']
-        self.rootPathEnVar = config["rootPathEnvironmentVariable"]
+        try:
+            with open(os.environ[self.rootPathEnVar] + '\\config.yaml') as file:
+                config = yaml.full_load(file)
+            self.filesToBackup = config['filesToBackup']
+        except Exception as e:
+            self.logger.error(e)
+            self.logger.error("System was't able to read configs. Check the \'config.yaml\'.")
+            raise StopServiceException
         pass
 
 
-bs = BackupService()
-bs.makeBackup()
+# bs = BackupService()
+# bs.makeBackup()
