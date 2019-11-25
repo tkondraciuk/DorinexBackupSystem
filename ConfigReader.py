@@ -22,6 +22,7 @@ def loadConfigs():
 
 configs = loadConfigs()
 try:
+    timeInterval = float(configs['timeInterval'])
     host = configs['remoteStorage']['host']
     login = configs['remoteStorage']['login']
     password = configs['remoteStorage']['password']

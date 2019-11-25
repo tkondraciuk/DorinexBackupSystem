@@ -5,6 +5,7 @@ from pathlib import Path
 
 import servicemanager as servicemanager
 
+import ConfigReader
 import LoggerUtils
 from SMWinservice import SMWinservice
 from RepeatingTimer import RepeatingTimer
@@ -20,7 +21,7 @@ def test():
 
 class BackupWindowsService(SMWinservice):
     loggerName = 'BackupWindowsService'
-    interval = timedelta(seconds=10).seconds
+    interval = timedelta(minutes=ConfigReader.timeInterval).seconds
     _svc_display_name_ = "Dorinex Backup System"
     _svc_name_ = "DorinexBackupSystem"
     _svc_description_ = "It makes backup of important Dorinex files " \
