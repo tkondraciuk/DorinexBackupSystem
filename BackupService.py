@@ -1,12 +1,10 @@
 import os
-import yaml
-from datetime import datetime
-from zipfile import ZipFile
-
 import ConfigReader
 import LoggerUtils
+
+from datetime import datetime
+from zipfile import ZipFile
 from FTPController import FTPController
-from StopServiceException import StopServiceException
 
 
 class BackupService:
@@ -61,6 +59,3 @@ class BackupService:
         self.filesToBackup = ConfigReader.filesToBackup
         pass
 
-
-# bs = BackupService()
-# bs.makeBackup()

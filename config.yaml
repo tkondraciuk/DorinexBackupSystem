@@ -1,11 +1,14 @@
+#Time span between backups in minutes
 timeInterval: 5
 
+#Remote storage connection settings
 remoteStorage:
     host: "192.168.1.254"
     login: "testUser"
     password: "12345"
     uploadLocation: "/Volume_1/testBackup"
 
+#List of file paths to backup
 filesToBackup:
     - C:/C#/DorinexBackupSystem/testFile.txt
     - C:/C#/DorinexBackupSystem/testDirectory

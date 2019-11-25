@@ -1,6 +1,5 @@
 import logging
 from datetime import date
-import os
 
 logDirectory = 'C:/Python/DorinexBackupSystem/logs/'
 

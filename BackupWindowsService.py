@@ -1,22 +1,11 @@
-import random
-import sys
-import time
-from pathlib import Path
-
-import servicemanager as servicemanager
-
 import ConfigReader
 import LoggerUtils
-from SMWinservice import SMWinservice
-from RepeatingTimer import RepeatingTimer
-from _datetime import timedelta
 
 from BackupService import BackupService
+from RepeatingTimer import RepeatingTimer
+from SMWinservice import SMWinservice
 from StopServiceException import StopServiceException
-
-
-def test():
-    print("Hello world")
+from _datetime import timedelta
 
 
 class BackupWindowsService(SMWinservice):

@@ -1,13 +1,11 @@
 import ftplib
 import os
 import socket
-import yaml
-from ftplib import FTP
-
 import ConfigReader
-from StopServiceException import StopServiceException
-
 import LoggerUtils
+
+from ftplib import FTP
+from StopServiceException import StopServiceException
 
 
 class FTPController:
