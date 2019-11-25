@@ -3,6 +3,7 @@ import yaml
 from datetime import datetime
 from zipfile import ZipFile
 
+import ConfigReader
 import LoggerUtils
 from FTPController import FTPController
 from StopServiceException import StopServiceException
@@ -57,14 +58,7 @@ class BackupService:
         self.zipFilePath = os.environ[self.rootPathEnVar] + "\\zip\\" + zipFileName
 
     def _loadConfig(self):
-        try:
-            with open(os.environ[self.rootPathEnVar] + '\\config.yaml') as file:
-                config = yaml.full_load(file)
-            self.filesToBackup = config['filesToBackup']
-        except Exception as e:
-            self.logger.error(e)
-            self.logger.error("System was't able to read configs. Check the \'config.yaml\'.")
-            raise StopServiceException
+        self.filesToBackup = ConfigReader.filesToBackup
         pass
 
 

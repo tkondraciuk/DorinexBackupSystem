@@ -3,6 +3,8 @@ import os
 import socket
 import yaml
 from ftplib import FTP
+
+import ConfigReader
 from StopServiceException import StopServiceException
 
 import LoggerUtils
@@ -23,17 +25,10 @@ class FTPController:
         pass
 
     def _loadConfig(self):
-        try:
-            with open(os.environ[self.rootPathEnVar] + "\\config.yaml", 'r') as file:
-                connConfig = yaml.full_load(file)['remoteStorage']
-        except Exception as e:
-            self.logger.error(e)
-            self.logger.error('System was\'t able to read configs. Check the \'config.yaml\'.')
-            raise StopServiceException
-        self.host = connConfig['host']
-        self.login = connConfig['login']
-        self.password = connConfig['password']
-        self.uploadLocation = connConfig['uploadLocation']
+        self.host = ConfigReader.host
+        self.login = ConfigReader.login
+        self.password = ConfigReader.password
+        self.uploadLocation = ConfigReader.uploadLocation
         pass
 
     def uploadFile(self, filePath):
